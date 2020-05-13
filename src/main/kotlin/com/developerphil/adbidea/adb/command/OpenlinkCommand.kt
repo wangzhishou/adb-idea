@@ -1,23 +1,17 @@
 package com.developerphil.adbidea.adb.command
 
 import com.android.ddmlib.IDevice
+import com.developerphil.adbidea.adb.AdbUtil
 import com.intellij.openapi.project.Project
 import org.jetbrains.android.facet.AndroidFacet
 
-open class CommandList(vararg commands: Command) : Command {
+class OpenlinkCommand : Command {
     override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String, params: Any): Boolean {
+        AdbUtil.startActionView(project, device, facet, packageName, params)
         return false
     }
 
-    private val commands = listOf(*commands)
-
     override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String): Boolean {
-        for (command in commands) {
-            if (!command.run(project, device, facet, packageName)) {
-                return false
-            }
-        }
-        return true
+        return false
     }
-
 }

@@ -12,6 +12,7 @@ import java.util.concurrent.Executors
 object AdbFacade {
     private val EXECUTOR = Executors.newCachedThreadPool(ThreadFactoryBuilder().setNameFormat("AdbIdea-%d").build())
 
+    fun openLink(project: Project, any: Any) = executeOnDevice(project, OpenlinkCommand(), any)
     fun uninstall(project: Project) = executeOnDevice(project, UninstallCommand())
     fun kill(project: Project) = executeOnDevice(project, KillCommand())
     fun grantPermissions(project: Project) = executeOnDevice(project, GrantPermissionsCommand())
@@ -42,6 +43,26 @@ object AdbFacade {
         if (result != null) {
             for (device in result.devices) {
                 EXECUTOR.submit { runnable.run(project, device, result.facet, result.packageName) }
+            }
+        } else {
+            NotificationHelper.error("No Device found")
+        }
+    }
+
+    private fun executeOnDevice(project: Project, runnable: Command, param: Any) {
+
+        if (AdbUtil.isGradleSyncInProgress(project)) {
+            NotificationHelper.error("Gradle sync is in progress")
+            return
+        }
+
+        val result = project.getComponent(ObjectGraph::class.java)
+            .deviceResultFetcher
+            .fetch()
+
+        if (result != null) {
+            for (device in result.devices) {
+                EXECUTOR.submit { runnable.run(project, device, result.facet, result.packageName, param) }
             }
         } else {
             NotificationHelper.error("No Device found")

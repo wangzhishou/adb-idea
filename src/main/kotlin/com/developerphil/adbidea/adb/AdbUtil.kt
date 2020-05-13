@@ -8,9 +8,11 @@ import com.android.tools.idea.gradle.project.sync.GradleSyncState
 import com.developerphil.adbidea.adb.command.receiver.GenericReceiver
 import com.developerphil.adbidea.ui.NotificationHelper.info
 import com.intellij.openapi.project.Project
+import org.jetbrains.android.facet.AndroidFacet
 import org.joor.Reflect
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 
 object AdbUtil {
     @Throws(TimeoutException::class, AdbCommandRejectedException::class, ShellCommandUnresponsiveException::class, IOException::class)
@@ -43,4 +45,25 @@ object AdbUtil {
             false
         }
     }
+
+    /**
+     *  Open Url or AppLink
+    */
+    fun startActionView(project: Project, device: IDevice, facet: AndroidFacet, packageName: String, params: Any): Boolean {
+        try {
+            val command = "am start -a android.intent.action.VIEW -d $params"
+            device.executeShellCommand(command, GenericReceiver(), 15L, TimeUnit.SECONDS)
+            info(command)
+            return true
+        } catch (e: Exception) {
+            error("am start fail... " + e.message)
+        }
+    }
+
+    private val sEscapePattern = Pattern.compile("([\\()*+?\"\'&#/\\s])")
+
+    fun escape(entryName: String): String {
+        return sEscapePattern.matcher(entryName).replaceAll("\\\\$1")
+    }
+
 }

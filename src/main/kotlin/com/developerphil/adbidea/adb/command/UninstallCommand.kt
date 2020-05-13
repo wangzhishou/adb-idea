@@ -9,6 +9,10 @@ import com.intellij.openapi.project.Project
 import org.jetbrains.android.facet.AndroidFacet
 
 class UninstallCommand : Command {
+    override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String, params: Any): Boolean {
+        return false
+    }
+
     override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String): Boolean {
         try {
             val errorCode = device.uninstallPackage(packageName)

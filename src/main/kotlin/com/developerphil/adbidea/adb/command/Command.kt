@@ -9,4 +9,10 @@ interface Command {
      * @return true if the command executed properly
      */
     fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String): Boolean
+
+    /**
+     *
+     * @return true if the command executed properly
+     */
+    fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String, params: Any): Boolean
 }

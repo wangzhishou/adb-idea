@@ -19,6 +19,10 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class StartDefaultActivityCommand(private val withDebugger: Boolean) : Command {
+    override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String, params: Any): Boolean {
+        return false
+    }
+
     override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String): Boolean {
         try {
             val activityName = getDefaultActivityName(facet, device)

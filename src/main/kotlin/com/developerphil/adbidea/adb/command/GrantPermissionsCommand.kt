@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
 class GrantPermissionsCommand : Command {
+    override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String, params: Any): Boolean {
+        return false
+    }
+
     override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String): Boolean {
         try {
             if (deviceHasMarshmallow(device)) if (AdbUtil.isAppInstalled(device, packageName)) {

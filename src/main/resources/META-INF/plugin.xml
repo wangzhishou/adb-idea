@@ -141,10 +141,10 @@
             </action>
             <separator/>
 
-            <action id="com.developerphil.adbidea.action.RevokePermissionsAction"
-                    class="com.developerphil.adbidea.action.RevokePermissionsAction"
-                    text="ADB Revoke Permissions"
-                    description="Revoking the runtime permissions of the current application">
+            <action id="com.developerphil.adbidea.action.OpenLinkAction"
+                    class="com.developerphil.adbidea.action.OpenLinkAction"
+                    text="ADB Open Link"
+                    description="Open Link Url (deeplink, applink, etc)">
             </action>
 
             <action id="com.developerphil.adbidea.action.RevokePermissionsAndRestartAction"

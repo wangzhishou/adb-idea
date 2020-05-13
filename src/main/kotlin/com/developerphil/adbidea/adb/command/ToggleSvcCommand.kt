@@ -17,6 +17,10 @@ class ToggleSvcCommand(
         private val command: SvcCommand,
         private val enable: Boolean) : Command {
 
+    override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String, params: Any): Boolean {
+        return false
+    }
+
     private val shellCommand = "svc ${command.parameter} ${enable.toState()}"
 
     override fun run(project: Project, device: IDevice, facet: AndroidFacet, packageName: String): Boolean {
